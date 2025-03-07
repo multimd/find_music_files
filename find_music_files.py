@@ -5,22 +5,14 @@ from pathlib import Path
 from collections import defaultdict
 import time
 
-# Try to import tkinter but don't fail if it's not available
-try:
-    import tkinter as tk
-    from tkinter import filedialog
-    TKINTER_AVAILABLE = True
-except ImportError:
-    TKINTER_AVAILABLE = False
-
 # Music file extensions to search for
 MUSIC_EXTENSIONS = {
     # Common formats
     ".mp3", ".aac", ".wav", ".flac", ".m4a",
     # High-quality/lossless formats
-    ".alac", ".ape", ".dsf", ".dff", ".aiff", 
+    ".oga", ".ape", ".dsf", ".dff", ".aiff", ".aif", 
     # Additional formats
-    ".ogg", ".wma" 
+    ".ogg"
 }
 
 def count_music_files(root_path):
@@ -98,46 +90,21 @@ def count_music_files(root_path):
     
     return music_files_count, total_count, extension_counts
 
-def get_folder_from_dialog():
-    """Open a folder selection dialog and return the selected path."""
-    # Create a minimal root window and hide it
-    root = tk.Tk()
-    root.withdraw()
-    
-    # Show folder selection dialog
-    print("Please select a folder to scan for music files...")
-    folder_path = filedialog.askdirectory(title="Select folder to scan for music files")
-    
-    if not folder_path:
-        print("No folder selected. Exiting.")
-        sys.exit(0)
-    
-    return folder_path
-
 def main():
     # Set up command line argument parsing
     parser = argparse.ArgumentParser(description='Count music files in a folder and its subfolders.')
-    parser.add_argument('--path', '-p', help='Path to the folder to scan. If not provided, will open a folder selection dialog (requires tkinter).')
+    parser.add_argument('--path', '-p', required=True, help='Path to the folder to scan.')
     args = parser.parse_args()
     
     # Get the folder path
-    if args.path:
-        folder_path = args.path
-        # Check if the path exists and is a directory
-        if not os.path.isdir(folder_path):
-            print(f"Error: '{folder_path}' is not a valid directory. Exiting.")
-            sys.exit(1)
-    else:
-        # Try to use the GUI dialog if tkinter is available
-        if TKINTER_AVAILABLE:
-            folder_path = get_folder_from_dialog()
-        else:
-            print("Error: tkinter is not available. Please specify a folder path using --path option.")
-            print("Example: python find_music_files.py --path /path/to/music/folder")
-            sys.exit(1)
+    folder_path = args.path
+    # Check if the path exists and is a directory
+    if not os.path.isdir(folder_path):
+        print(f"Error: '{folder_path}' is not a valid directory. Exiting.")
+        sys.exit(1)
     
     print(f"Selected folder: {folder_path}")
-    print(f"Scanning for files with extensions: {', '.join(MUSIC_EXTENSIONS)}")
+    print(f"Scanning for files with extensions: {', '.join(sorted(MUSIC_EXTENSIONS))}")
     print("-" * 70)
     
     # Count music files
