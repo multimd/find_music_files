@@ -1,1 +1,3 @@
 # No additional packages required - script uses only Python standard library 
+pandas>=1.3.0
+openpyxl>=3.0.7 
