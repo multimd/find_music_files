@@ -4,7 +4,7 @@ A Python script to count music files in a selected folder and its subfolders.
 
 ## Features
 
-- Counts music files with extensions: .wav, .flac, .aiff, .alac, .ape, .m4a, .dsf, .dff
+- Counts music files with extensions: .mp3, .aac, .wav, .flac, .m4a, .oga, .ape, .dsf, .dff, .aiff, .aif, .ogg
 - Shows counts for each top-level subfolder
 - Displays a total sum of all music files
 - Shows real-time progress as it scans
